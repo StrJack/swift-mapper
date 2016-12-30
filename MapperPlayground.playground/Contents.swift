@@ -35,21 +35,27 @@ extension Mapable where Self: NSObject {
         
         self.props().forEach { (element) in
             if let jsonDict = json[element.label], jsonDict is Dictionary<String, Any> {
-                // DICTIONARY VALUE: means that model has
+                // DICTIONARY VALUE: means that model's property is complex object that conforms to Mapable protocol
                 let newValType = type(of: element.value) as! OptionalProtocol.Type
                 let obj = (newValType.wrappedType() as! Mapable.Type).init(fromJson: (jsonDict as! Dictionary<String, Any>))
                 
                 self.setValue(obj, forKey: element.label)
             } else if let jsonArray = json[element.label], jsonArray is Array<Any> {
-                // ARRAY VALUE
+                // ARRAY VALUE: suppose that every element's type of array is the same, in this case first we need to figure our what type of array do we have
                 let type = type(of: jsonArray) as! ArrayProtocol.Type
                 let arrayElementType = type.wrappedType()
                 
                 let castType = type(of: element.value) as! OptionalProtocol.Type
-                let arrayType = castType.wrappedType() as! ArrayProtocol.Type
+                let elementType = castType.wrappedType() as! ArrayProtocol.Type
+                
+                if elementType.wrappedType() is Mapable.Type {
+                    print("OLALA")
+                    let newObj = (elementType.wrappedType() as! Mapable.Type).init(fromJson: ((jsonArray as! Array<Any>).first as! Dictionary<String, Any>)) as! ClassB
+                    newObj.superAwesome
+                }
                 
                 if arrayElementType == Dictionary<String, String>.self {
-                    print("OLALA")
+                    
                 }
                 let array = jsonArray as! Array<Any>
                 
@@ -61,7 +67,7 @@ extension Mapable where Self: NSObject {
                 //
                 //                self.setValue(obj, forKey: element.label)
             } else if let val = json[element.label] {
-                // SIMPLE VALUE
+                // SIMPLE VALUE: in case of simple value just set model's property with simple value
                 self.setValue(val, forKey: element.label)
             }
         }
@@ -107,10 +113,11 @@ class MyClass: ClassA {
 }
 
 class ClassB: NSObject, Mapable {
+    var superAwesome: String?
 }
 
 //let jsonDictionary: Dictionary<String, Any> = ["superAwesome": "Me", "superName": "AlsoMe", "name": "TEST_VALUE", "anotherUser": ["superAwesome": "You"]]
-let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME","anotherUser": [["superAwesome": "You"], ["superAwesome": "Him"]]]
+let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME","anotherUser": [["superAwesome": "You"], ["superAwesome": "Him"], ["some_key": 123]]]
 
 
 
