@@ -77,8 +77,18 @@ extension Mapable where Self: NSObject {
                 //                let obj = (newValType.wrappedType() as! Mapable.Type).init(fromJson: (jsonArray as! Array<Any>))
                 //
                 //                self.setValue(obj, forKey: element.label)
-            } else if let val = json[element.label] {
+            } else if let val = json[element.label] {//, isPrimitive(element.value as AnyObject) {
                 // SIMPLE VALUE: in case of simple value just set model's property with simple value
+                let some_type = type(of: (val as AnyObject))
+                if isPrimitive(val as AnyObject) {
+                    print("Olala1\(val)")
+                }
+                if some_type is NSNumber.Type {
+                    print("Olala2\(val)")
+                }
+                print("------\(some_type)")
+                val
+                element.label
                 self.setValue(val, forKey: element.label)
             }
         }
@@ -86,6 +96,11 @@ extension Mapable where Self: NSObject {
         json.keys.forEach { (key) in
             //            print(key)
         }
+    }
+    
+    func isPrimitive(_ obj: AnyObject) -> Bool {
+        let objType = type(of: obj)
+        return (objType is _NSContiguousString.Type) || (objType is NSNumber.Type)
     }
     
     func props() -> [(label: String, value: Any)] {
@@ -120,7 +135,7 @@ class MyClass: ClassA {
     
     var name = "Sansa Stark"
     var awesome = true
-    var anotherUser: [ClassB]?
+    var anotherUser = true //[ClassB]?
 }
 
 class ClassB: NSObject, Mapable {
@@ -128,7 +143,8 @@ class ClassB: NSObject, Mapable {
 }
 
 //let jsonDictionary: Dictionary<String, Any> = ["superAwesome": "Me", "superName": "AlsoMe", "name": "TEST_VALUE", "anotherUser": ["superAwesome": "You"]]
-let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME","anotherUser": [["superAwesome": "You"], ["superAwesome": "Him"], ["some_key": 123]]]
+let s: String? = nil
+let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME", "anotherUser": true]//[["superAwesome": "You"], ["superAwesome": "Him"], ["some_key": 123]]]
 
 
 
