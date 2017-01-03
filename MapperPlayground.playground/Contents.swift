@@ -50,8 +50,19 @@ extension Mapable where Self: NSObject {
                 
                 if elementType.wrappedType() is Mapable.Type {
                     print("OLALA")
-                    let newObj = (elementType.wrappedType() as! Mapable.Type).init(fromJson: ((jsonArray as! Array<Any>).first as! Dictionary<String, Any>)) as! ClassB
-                    newObj.superAwesome
+                    let jsonElements = (jsonArray as! Array<Dictionary<String, Any>>)
+                    var objects = [Mapable]()
+                    for element: Dictionary<String, Any> in jsonElements {
+//                        print("** -> \(element)")
+                        let actualObj = (elementType.wrappedType() as! Mapable.Type).init(fromJson: element)
+                        objects.append(actualObj)
+                        
+                        print("** -> \(actualObj)")
+                        
+                    }
+                    self.setValue(objects, forKey: element.label)
+//                    let newObj = (elementType.wrappedType() as! Mapable.Type).init(fromJson: ((jsonArray as! Array<Any>).first as! Dictionary<String, Any>)) as! ClassB
+//                    newObj.superAwesome
                 }
                 
                 if arrayElementType == Dictionary<String, String>.self {
