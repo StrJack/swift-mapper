@@ -40,7 +40,6 @@ public extension Mappable where Self: NSObject {
                     var objects = [Mappable]()
                     for element: Dictionary<String, Any> in jsonElements {
                         let actualObj = (elementType.wrappedType() as! Mappable.Type).init(fromJson: element)
-                        type(of: actualObj)
                         objects.append(actualObj)
                     }
                     self.setValue(objects, forKey: element.label)
