@@ -10,6 +10,11 @@
 		B43DB0841E1DADE000348457 /* SwiftMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B43DB07A1E1DADE000348457 /* SwiftMapper.framework */; };
 		B43DB0891E1DADE100348457 /* SwiftMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43DB0881E1DADE100348457 /* SwiftMapperTests.swift */; };
 		B43DB08B1E1DADE100348457 /* SwiftMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = B43DB07D1E1DADE000348457 /* SwiftMapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B43DB0981E1DB38100348457 /* TypeWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43DB0951E1DB25E00348457 /* TypeWrapper.swift */; };
+		B43DB09A1E1DB44100348457 /* OptionalProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43DB0991E1DB44100348457 /* OptionalProtocol.swift */; };
+		B43DB09C1E1DB48D00348457 /* ArrayProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43DB09B1E1DB48D00348457 /* ArrayProtocol.swift */; };
+		B43DB09E1E1DB53400348457 /* Mappable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43DB09D1E1DB53400348457 /* Mappable.swift */; };
+		B43DB0A01E1DB56E00348457 /* Simple.swift in Sources */ = {isa = PBXBuildFile; fileRef = B43DB09F1E1DB56E00348457 /* Simple.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +35,11 @@
 		B43DB0881E1DADE100348457 /* SwiftMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMapperTests.swift; sourceTree = "<group>"; };
 		B43DB08A1E1DADE100348457 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B43DB0941E1DB04800348457 /* MapperPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MapperPlayground.playground; sourceTree = "<group>"; };
+		B43DB0951E1DB25E00348457 /* TypeWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeWrapper.swift; sourceTree = "<group>"; };
+		B43DB0991E1DB44100348457 /* OptionalProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptionalProtocol.swift; sourceTree = "<group>"; };
+		B43DB09B1E1DB48D00348457 /* ArrayProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayProtocol.swift; sourceTree = "<group>"; };
+		B43DB09D1E1DB53400348457 /* Mappable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mappable.swift; sourceTree = "<group>"; };
+		B43DB09F1E1DB56E00348457 /* Simple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simple.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +83,7 @@
 		B43DB07C1E1DADE000348457 /* SwiftMapper */ = {
 			isa = PBXGroup;
 			children = (
+				B43DB0971E1DB27200348457 /* Source */,
 				B43DB07D1E1DADE000348457 /* SwiftMapper.h */,
 				B43DB07E1E1DADE000348457 /* Info.plist */,
 			);
@@ -86,6 +97,18 @@
 				B43DB08A1E1DADE100348457 /* Info.plist */,
 			);
 			path = SwiftMapperTests;
+			sourceTree = "<group>";
+		};
+		B43DB0971E1DB27200348457 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				B43DB0951E1DB25E00348457 /* TypeWrapper.swift */,
+				B43DB0991E1DB44100348457 /* OptionalProtocol.swift */,
+				B43DB09B1E1DB48D00348457 /* ArrayProtocol.swift */,
+				B43DB09F1E1DB56E00348457 /* Simple.swift */,
+				B43DB09D1E1DB53400348457 /* Mappable.swift */,
+			);
+			name = Source;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +174,7 @@
 					B43DB0791E1DADE000348457 = {
 						CreatedOnToolsVersion = 8.1;
 						DevelopmentTeam = R4D7RF83U3;
+						LastSwiftMigration = 0810;
 						ProvisioningStyle = Automatic;
 					};
 					B43DB0821E1DADE000348457 = {
@@ -200,6 +224,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B43DB0981E1DB38100348457 /* TypeWrapper.swift in Sources */,
+				B43DB0A01E1DB56E00348457 /* Simple.swift in Sources */,
+				B43DB09A1E1DB44100348457 /* OptionalProtocol.swift in Sources */,
+				B43DB09C1E1DB48D00348457 /* ArrayProtocol.swift in Sources */,
+				B43DB09E1E1DB53400348457 /* Mappable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +353,7 @@
 		B43DB08F1E1DADE100348457 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = R4D7RF83U3;
@@ -336,6 +366,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.jacktech.mapper.SwiftMapper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -343,6 +374,7 @@
 		B43DB0901E1DADE100348457 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = R4D7RF83U3;
@@ -362,6 +394,7 @@
 		B43DB0921E1DADE100348457 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = R4D7RF83U3;
 				INFOPLIST_FILE = SwiftMapperTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -374,6 +407,7 @@
 		B43DB0931E1DADE100348457 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = R4D7RF83U3;
 				INFOPLIST_FILE = SwiftMapperTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
