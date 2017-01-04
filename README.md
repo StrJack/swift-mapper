@@ -1,2 +1,2 @@
-# swift-mapper
-Initialize custom models with with JSON Object
+# Swift Mapper
+Swift Mapper helps developer easily translate swift Dictionary into the model which conforms to the Mappable protocol. By using Mirror class Swift Mapper determines which properties are used by model and then tries to parse Dictionary step by step to initialize it. Since new object is inherited from NSObject it allows protocol's extension use KVD approach to set object's properties.
