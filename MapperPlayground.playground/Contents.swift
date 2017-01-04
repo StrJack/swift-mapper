@@ -37,8 +37,11 @@ extension Mapable where Self: NSObject {
         self.props().forEach { (element) in
             if let jsonDict = json[element.label], jsonDict is Dictionary<String, Any> {
                 // DICTIONARY VALUE: means that model's property is complex object that conforms to Mapable protocol
-                let newValType = type(of: element.value) as! OptionalProtocol.Type
-                let obj = (newValType.wrappedType() as! Mapable.Type).init(fromJson: (jsonDict as! Dictionary<String, Any>))
+                var newValType: Any.Type = type(of: element.value)// as! TypeWrapper.Type
+                if newValType is OptionalProtocol.Type {
+                    newValType = (newValType as! OptionalProtocol.Type).wrappedType()
+                }
+                let obj = (newValType as! Mapable.Type).init(fromJson: (jsonDict as! Dictionary<String, Any>))
                 
                 self.setValue(obj, forKey: element.label)
             } else if let jsonArray = json[element.label], jsonArray is Array<Any> {
@@ -103,7 +106,7 @@ class ClassA: NSObject, Mapable {
 class MyClass: ClassA {
     var name = "Sansa Stark"
     var awesome = true
-    var userB = [ClassB]()
+    var userB = ClassB()
 }
 
 class ClassB: NSObject, Mapable {
@@ -111,12 +114,11 @@ class ClassB: NSObject, Mapable {
     var test: Int = 0
 }
 
-let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME", "userB": [["superAwesome": "Richard II", "test": 123], ["superAwesome": "Richard III", "test": 123], ["superAwesome": "Richard IV", "test": 90]]]
+let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME", "userB": ["superAwesome": "Richard IV", "test": 90]]
 Int("101")
 let some = MyClass(fromJson: jsonDictionary)
 some.superAwesome
 some.superName
 some.name
 some.awesome
-some.userB.last?.superAwesome
-some.userB.last?.test
+some.userB.superAwesome
