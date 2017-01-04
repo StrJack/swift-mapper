@@ -42,9 +42,12 @@ extension Mapable where Self: NSObject {
                 
                 self.setValue(obj, forKey: element.label)
             } else if let jsonArray = json[element.label], jsonArray is Array<Any> {
-                // ARRAY VALUE: suppose that every element's type of array is the same, in this case first we need to figure our what type of array do we have
-                let castType = type(of: element.value) as! OptionalProtocol.Type
-                let elementType = castType.wrappedType() as! ArrayProtocol.Type
+                // ARRAY VALUE: suppose that every element's type of array is the same, in this case first we need to figure out what type of array do we have
+                var castType = type(of: element.value) as! TypeWrapper.Type
+                if castType is OptionalProtocol.Type { // get wrapped type if model's array was optional
+                    castType = castType.wrappedType() as! TypeWrapper.Type
+                }
+                let elementType = castType as! ArrayProtocol.Type
                 
                 if elementType.wrappedType() is Mapable.Type {
                     let jsonElements = (jsonArray as! Array<Dictionary<String, Any>>)
@@ -100,7 +103,7 @@ class ClassA: NSObject, Mapable {
 class MyClass: ClassA {
     var name = "Sansa Stark"
     var awesome = true
-    var userB: [ClassB]?
+    var userB = [ClassB]()
 }
 
 class ClassB: NSObject, Mapable {
@@ -115,5 +118,5 @@ some.superAwesome
 some.superName
 some.name
 some.awesome
-some.userB?.last?.superAwesome
-some.userB?.last?.test
+some.userB.last?.superAwesome
+some.userB.last?.test
