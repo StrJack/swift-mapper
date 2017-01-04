@@ -29,6 +29,31 @@ protocol Mapable {
     init(fromJson json: Dictionary<String, Any>)
 }
 
+protocol Simple {
+    static func initWith(_ anyObj: Any) -> Simple?
+}
+
+extension String: Simple {
+    static func initWith(_ anyObj: Any) -> Simple? {
+        return String(describing: anyObj)
+    }
+}
+
+extension Int: Simple {
+    static func initWith(_ anyObj: Any) -> Simple? {
+        if anyObj is _NSContiguousString {
+            if let doubleVal = Double(anyObj as! String) {
+                return Int.initWith(doubleVal)
+            }
+        } else if anyObj is Int {
+            return Int(anyObj as! Int)
+        } else if anyObj is Double {
+            return Int(anyObj as! Double)
+        }
+        return nil
+    }
+}
+
 extension Mapable where Self: NSObject {
 
     init(fromJson json: Dictionary<String, Any>) {
@@ -62,9 +87,17 @@ extension Mapable where Self: NSObject {
                     }
                     self.setValue(objects, forKey: element.label)
                 }
-            } else if let val = json[element.label], isPrimitive(element) {
+            } else if var value = json[element.label], isPrimitive(element) {
                 // SIMPLE VALUE: in case of simple value just set model's property with simple value
-                self.setValue(val, forKey: element.label)
+                var unwrappedType: Any.Type = type(of: element.value)
+                if unwrappedType is OptionalProtocol.Type {
+                    unwrappedType = (unwrappedType as! OptionalProtocol.Type).wrappedType()
+                }
+                
+                if unwrappedType is Simple.Type, let actualValue = (unwrappedType as! Simple.Type).initWith(value) {
+                    value = actualValue
+                }
+                self.setValue(value, forKey: element.label)
             }
         }
     }
@@ -96,7 +129,7 @@ extension Mapable where Self: NSObject {
 
 
 class ClassA: NSObject, Mapable {
-    var superAwesome: String?
+    var superAwesome: Int = 0
     var superName: String?
     var lol: Bool = false
     
@@ -114,8 +147,8 @@ class ClassB: NSObject, Mapable {
     var test: Int = 0
 }
 
-let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME", "userB": ["superAwesome": "Richard IV", "test": 90]]
-Int("101")
+let jsonDictionary: Dictionary<String, Any> = ["superAwesome": "11.34"]
+
 let some = MyClass(fromJson: jsonDictionary)
 some.superAwesome
 some.superName
