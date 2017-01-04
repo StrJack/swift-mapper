@@ -49,58 +49,29 @@ extension Mapable where Self: NSObject {
                 let elementType = castType.wrappedType() as! ArrayProtocol.Type
                 
                 if elementType.wrappedType() is Mapable.Type {
-                    print("OLALA")
                     let jsonElements = (jsonArray as! Array<Dictionary<String, Any>>)
                     var objects = [Mapable]()
                     for element: Dictionary<String, Any> in jsonElements {
-//                        print("** -> \(element)")
                         let actualObj = (elementType.wrappedType() as! Mapable.Type).init(fromJson: element)
+                        type(of: actualObj)
                         objects.append(actualObj)
-                        
-                        print("** -> \(actualObj)")
-                        
                     }
                     self.setValue(objects, forKey: element.label)
-//                    let newObj = (elementType.wrappedType() as! Mapable.Type).init(fromJson: ((jsonArray as! Array<Any>).first as! Dictionary<String, Any>)) as! ClassB
-//                    newObj.superAwesome
                 }
-                
-                if arrayElementType == Dictionary<String, String>.self {
-                    
-                }
-                let array = jsonArray as! Array<Any>
-                
-                (jsonArray as! Array<Any>).forEach({ (arrayElement) in
-                    print(type(of: arrayElement))
-                })
-                //                let newValType = type(of: element.value) as! OptionalProtocol.Type
-                //                let obj = (newValType.wrappedType() as! Mapable.Type).init(fromJson: (jsonArray as! Array<Any>))
-                //
-                //                self.setValue(obj, forKey: element.label)
-            } else if let val = json[element.label] {//, isPrimitive(element.value as AnyObject) {
+            } else if let val = json[element.label], isPrimitive(element) {
                 // SIMPLE VALUE: in case of simple value just set model's property with simple value
-                let some_type = type(of: (val as AnyObject))
-                if isPrimitive(val as AnyObject) {
-                    print("Olala1\(val)")
-                }
-                if some_type is NSNumber.Type {
-                    print("Olala2\(val)")
-                }
-                print("------\(some_type)")
-                val
-                element.label
                 self.setValue(val, forKey: element.label)
             }
         }
         
         json.keys.forEach { (key) in
-            //            print(key)
         }
     }
     
-    func isPrimitive(_ obj: AnyObject) -> Bool {
-        let objType = type(of: obj)
-        return (objType is _NSContiguousString.Type) || (objType is NSNumber.Type)
+    func isPrimitive(_ obj: (label: String, value: Any)) -> Bool {
+        let objType = type(of: obj.value)
+        
+        return (objType is _NSContiguousString.Type) || (objType is NSNumber.Type) || (objType is Optional<String>.Type) || (objType is Int.Type)
     }
     
     func props() -> [(label: String, value: Any)] {
@@ -135,30 +106,22 @@ class MyClass: ClassA {
     
     var name = "Sansa Stark"
     var awesome = true
-    var anotherUser = true //[ClassB]?
+    var userB: [ClassB]?
 }
 
 class ClassB: NSObject, Mapable {
     var superAwesome: String?
+    var test: Int = 0
 }
 
 //let jsonDictionary: Dictionary<String, Any> = ["superAwesome": "Me", "superName": "AlsoMe", "name": "TEST_VALUE", "anotherUser": ["superAwesome": "You"]]
 let s: String? = nil
-let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME", "anotherUser": true]//[["superAwesome": "You"], ["superAwesome": "Him"], ["some_key": 123]]]
-
-
-
+let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME", "userB": [["superAwesome": "Richard II", "test": 123], ["superAwesome": "Richard III", "test": 123], ["superAwesome": "Richard IV", "test": 123]]] //[["superAwesome": "You"], ["superAwesome": "Him"], ["some_key": 123]]]
 
 let some = MyClass(fromJson: jsonDictionary)
 //some.setValue("ME", forKey: "superName")
-print(some.superAwesome)
-print(some.superName)
-print(some.name)
-print(some.awesome)
-print(some.anotherUser)
-//print(some.anotherUser?.superAwesome)
-let mirror = Mirror(reflecting: some)
-type(of: mirror)
-
-
-mirror.children.map { type(of: $0.value) }
+some.superAwesome
+some.superName
+some.name
+some.awesome
+some.userB?.last?.superAwesome
