@@ -3,8 +3,11 @@
 import Foundation
 import UIKit
 
-protocol OptionalProtocol {
+protocol TypeWrapper {
     static func wrappedType() -> Any.Type
+}
+
+protocol OptionalProtocol: TypeWrapper {
 }
 
 extension Optional : OptionalProtocol {
@@ -13,8 +16,7 @@ extension Optional : OptionalProtocol {
     }
 }
 
-protocol ArrayProtocol {
-    static func wrappedType() -> Any.Type
+protocol ArrayProtocol: TypeWrapper {
 }
 
 extension Array : ArrayProtocol {
@@ -106,11 +108,12 @@ class ClassB: NSObject, Mapable {
     var test: Int = 0
 }
 
-let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME", "userB": [["superAwesome": "Richard II", "test": 123], ["superAwesome": "Richard III", "test": 123], ["superAwesome": "Richard IV", "test": 123]]]
-
+let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME", "userB": [["superAwesome": "Richard II", "test": 123], ["superAwesome": "Richard III", "test": 123], ["superAwesome": "Richard IV", "test": 90]]]
+Int("101")
 let some = MyClass(fromJson: jsonDictionary)
 some.superAwesome
 some.superName
 some.name
 some.awesome
 some.userB?.last?.superAwesome
+some.userB?.last?.test
