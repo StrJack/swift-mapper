@@ -29,6 +29,7 @@
 		B43DB0831E1DADE000348457 /* SwiftMapperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftMapperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B43DB0881E1DADE100348457 /* SwiftMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMapperTests.swift; sourceTree = "<group>"; };
 		B43DB08A1E1DADE100348457 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B43DB0941E1DB04800348457 /* MapperPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MapperPlayground.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +54,7 @@
 		B43DB0701E1DADE000348457 = {
 			isa = PBXGroup;
 			children = (
+				B43DB0941E1DB04800348457 /* MapperPlayground.playground */,
 				B43DB07C1E1DADE000348457 /* SwiftMapper */,
 				B43DB0871E1DADE000348457 /* SwiftMapperTests */,
 				B43DB07B1E1DADE000348457 /* Products */,
@@ -400,6 +402,7 @@
 				B43DB0901E1DADE100348457 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B43DB0911E1DADE100348457 /* Build configuration list for PBXNativeTarget "SwiftMapperTests" */ = {
 			isa = XCConfigurationList;
@@ -408,6 +411,7 @@
 				B43DB0931E1DADE100348457 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
