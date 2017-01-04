@@ -23,13 +23,12 @@ extension Array : ArrayProtocol {
     }
 }
 
-
 protocol Mapable {
     init(fromJson json: Dictionary<String, Any>)
 }
 
 extension Mapable where Self: NSObject {
-    
+
     init(fromJson json: Dictionary<String, Any>) {
         self.init()
         
@@ -42,9 +41,6 @@ extension Mapable where Self: NSObject {
                 self.setValue(obj, forKey: element.label)
             } else if let jsonArray = json[element.label], jsonArray is Array<Any> {
                 // ARRAY VALUE: suppose that every element's type of array is the same, in this case first we need to figure our what type of array do we have
-                let type = type(of: jsonArray) as! ArrayProtocol.Type
-                let arrayElementType = type.wrappedType()
-                
                 let castType = type(of: element.value) as! OptionalProtocol.Type
                 let elementType = castType.wrappedType() as! ArrayProtocol.Type
                 
@@ -63,18 +59,15 @@ extension Mapable where Self: NSObject {
                 self.setValue(val, forKey: element.label)
             }
         }
-        
-        json.keys.forEach { (key) in
-        }
     }
     
-    func isPrimitive(_ obj: (label: String, value: Any)) -> Bool {
+    private func isPrimitive(_ obj: (label: String, value: Any)) -> Bool {
         let objType = type(of: obj.value)
         
         return (objType is _NSContiguousString.Type) || (objType is NSNumber.Type) || (objType is Optional<String>.Type) || (objType is Int.Type)
     }
     
-    func props() -> [(label: String, value: Any)] {
+    private func props() -> [(label: String, value: Any)] {
         var props = [(label: String, value: Any)]()
         return self.propsFor(mirror: Mirror(reflecting: self), storeIn: &props)
     }
@@ -103,7 +96,6 @@ class ClassA: NSObject, Mapable {
 }
 
 class MyClass: ClassA {
-    
     var name = "Sansa Stark"
     var awesome = true
     var userB: [ClassB]?
@@ -114,12 +106,9 @@ class ClassB: NSObject, Mapable {
     var test: Int = 0
 }
 
-//let jsonDictionary: Dictionary<String, Any> = ["superAwesome": "Me", "superName": "AlsoMe", "name": "TEST_VALUE", "anotherUser": ["superAwesome": "You"]]
-let s: String? = nil
-let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME", "userB": [["superAwesome": "Richard II", "test": 123], ["superAwesome": "Richard III", "test": 123], ["superAwesome": "Richard IV", "test": 123]]] //[["superAwesome": "You"], ["superAwesome": "Him"], ["some_key": 123]]]
+let jsonDictionary: Dictionary<String, Any> = ["testKey": "Test value:", "superAwesome": "ME", "userB": [["superAwesome": "Richard II", "test": 123], ["superAwesome": "Richard III", "test": 123], ["superAwesome": "Richard IV", "test": 123]]]
 
 let some = MyClass(fromJson: jsonDictionary)
-//some.setValue("ME", forKey: "superName")
 some.superAwesome
 some.superName
 some.name
