@@ -62,7 +62,7 @@ public extension Mappable where Self: NSObject {
     private func isPrimitive(_ obj: (label: String, value: Any)) -> Bool {
         let objType = type(of: obj.value)
         
-        return (objType is _NSContiguousString.Type) || (objType is NSNumber.Type) || (objType is Optional<String>.Type) || (objType is Int.Type)
+        return (objType is _NSContiguousString.Type) || (objType is String.Type) || (objType is NSNumber.Type) || (objType is Optional<String>.Type) || (objType is Int.Type)
     }
     
     private func props() -> [(label: String, value: Any)] {

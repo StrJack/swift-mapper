@@ -21,16 +21,37 @@ class SwiftMapperTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testModelCanInitializeStringProperty() {
+        let dictionary: Dictionary<String, Any> = ["firstName": "Alex"]
+        let human = Human(fromJson: dictionary)
+        
+        XCTAssertEqual(human.firstName, "Alex")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func testModelCanInitializeOptionalStringProperty() {
+        let dictionary: Dictionary<String, Any> = ["lastName": "Smith"]
+        let human = Human(fromJson: dictionary)
+        
+        XCTAssertEqual(human.lastName, "Smith")
     }
     
+    func testModelCanInitializeComplexProperty() {
+        let dictionary: Dictionary<String, Any> = ["currentAddress": ["buildingNumber": 5, "street": "Wacker", "city": "Chicago"]]
+        let human = Human(fromJson: dictionary)
+        
+        XCTAssertNotNil(human.currentAddress)
+        XCTAssertEqual(human.currentAddress.buildingNumber, 5)
+        XCTAssertEqual(human.currentAddress.street, "Wacker")
+        XCTAssertEqual(human.currentAddress.city, "Chicago")
+    }
+    
+    func testModelCanInitializeOptionalComplexProperty() {
+        let dictionary: Dictionary<String, Any> = ["previousAddress": ["buildingNumber": 7, "street": "Washington", "city": "New York"]]
+        let human = Human(fromJson: dictionary)
+        
+        XCTAssertNotNil(human.previousAddress)
+        XCTAssertEqual(human.previousAddress?.buildingNumber, 7)
+        XCTAssertEqual(human.previousAddress?.street, "Washington")
+        XCTAssertEqual(human.previousAddress?.city, "New York")
+    }
 }
