@@ -21,11 +21,20 @@ class SwiftMapperTests: XCTestCase {
         super.tearDown()
     }
     
+    // STRING
     func testModelCanInitializeStringProperty() {
         let dictionary: Dictionary<String, Any> = ["firstName": "Alex"]
         let human = Human(fromJson: dictionary)
         
         XCTAssertEqual(human.firstName, "Alex")
+    }
+    
+    func testModelKeepOptionalPropertyUninitialized() {
+        let dictionary: Dictionary<String, Any> = ["firstName": "Simon"]
+        let human = Human(fromJson: dictionary)
+        
+        XCTAssertEqual(human.firstName, "Simon")
+        XCTAssertNil(human.lastName)
     }
     
     func testModelCanInitializeOptionalStringProperty() {
@@ -35,7 +44,8 @@ class SwiftMapperTests: XCTestCase {
         XCTAssertEqual(human.lastName, "Smith")
     }
     
-    func testModelCanInitializeComplexProperty() {
+    // COMPLEX OBJECT - DICTIONARY
+    func testModelCanInitializeComplexPropertyInFull() {
         let dictionary: Dictionary<String, Any> = ["currentAddress": ["buildingNumber": 5, "street": "Wacker", "city": "Chicago"]]
         let human = Human(fromJson: dictionary)
         
@@ -45,7 +55,7 @@ class SwiftMapperTests: XCTestCase {
         XCTAssertEqual(human.currentAddress.city, "Chicago")
     }
     
-    func testModelCanInitializeOptionalComplexProperty() {
+    func testModelCanInitializeOptionalComplexPropertyInFull() {
         let dictionary: Dictionary<String, Any> = ["previousAddress": ["buildingNumber": 7, "street": "Washington", "city": "New York"]]
         let human = Human(fromJson: dictionary)
         
@@ -53,5 +63,22 @@ class SwiftMapperTests: XCTestCase {
         XCTAssertEqual(human.previousAddress?.buildingNumber, 7)
         XCTAssertEqual(human.previousAddress?.street, "Washington")
         XCTAssertEqual(human.previousAddress?.city, "New York")
+    }
+    
+    func testModelCanInitializeComplexPropertyPartially() {
+        let dictionary: Dictionary<String, Any> = ["currentAddress": ["buildingNumber": 9, "city": "San Francisco"]]
+        let human = Human(fromJson: dictionary)
+        
+        XCTAssertNotNil(human.currentAddress)
+        XCTAssertNotNil(human.currentAddress.buildingNumber)
+        XCTAssertNotNil(human.currentAddress.city)
+        XCTAssertNil(human.currentAddress.street)
+    }
+    
+    func testModelCanInitializeOptionalComplexPropertyPartially() {
+        let dictionary: Dictionary<String, Any> = ["previousAddress": ["buildingNumber": 13, "city": "Los Angeles"]]
+        let human = Human(fromJson: dictionary)
+        
+        XCTAssertNil(human.previousAddress!.street)
     }
 }
