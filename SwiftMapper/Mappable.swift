@@ -43,6 +43,15 @@ public extension Mappable where Self: NSObject {
                         objects.append(actualObj)
                     }
                     self.setValue(objects, forKey: element.label)
+                } else {
+                    // If elementType is not Mappable complex object that means we are dealing with simple one
+                    let jsonElements = (jsonArray as! Array<Simple>)
+                    var objects = [Simple]()
+                    for element: Any in jsonElements {
+                        let actualObj = (elementType.wrappedType() as! Simple.Type).initWith(element)
+                        objects.append(actualObj!)
+                    }
+                    self.setValue(objects, forKey: element.label)
                 }
             } else if var value = json[element.label], isPrimitive(element) {
                 // SIMPLE VALUE: in case of simple value just set model's property with simple value
