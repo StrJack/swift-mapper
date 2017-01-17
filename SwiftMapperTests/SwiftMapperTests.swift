@@ -81,4 +81,15 @@ class SwiftMapperTests: XCTestCase {
         
         XCTAssertNil(human.previousAddress!.street)
     }
+    
+    // COMPLEX OBJECT - ARRAY
+    func testModelCanInitializeArrayOfStrings() {
+        let dictionary: Dictionary<String, Any> = ["sublingsNames": ["John", "Peter", "Jack"]]
+        let human = Human(fromJson: dictionary)
+        
+        XCTAssertNotNil(human.sublingsNames)
+        XCTAssertEqual(human.sublingsNames![0], "John")
+        XCTAssertEqual(human.sublingsNames![1], "Peter")
+        XCTAssertEqual(human.sublingsNames![2], "Jack")
+    }
 }

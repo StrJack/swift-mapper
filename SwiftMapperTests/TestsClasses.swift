@@ -22,6 +22,8 @@ class Human: Creature {
     
     var parents: [Human]?
     var friends: [Human]?
+    
+    var sublingsNames: [String]?
 }
 
 class Dog: Creature {
